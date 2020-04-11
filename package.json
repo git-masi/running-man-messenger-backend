@@ -1,0 +1,37 @@
+{
+  "name": "running-man-messenger-api",
+  "version": "0.1.0",
+  "description": "Backend for the Running Man Messenger app",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "test": "jest --watch --runInBand --detectOpenHandles --maxworkers=10"
+  },
+  "engines": {
+    "node": "12.x",
+    "npm": "6.x"
+  },
+  "jest": {
+    "testEnvironment": "node"
+  },
+  "keywords": [
+    "MongoDB",
+    "Express",
+    "React",
+    "Node"
+  ],
+  "author": "Eric Masi",
+  "license": "ISC",
+  "devDependencies": {
+    "jest": "^25.3.0",
+    "nodemon": "^2.0.3",
+    "supertest": "^4.0.2"
+  },
+  "dependencies": {
+    "chalk": "^4.0.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "socket.io": "^2.3.0"
+  }
+}
