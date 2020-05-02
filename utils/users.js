@@ -30,22 +30,6 @@ const dispatch = (action) => {
 };
 
 const addUser = ({ id, name, room }) => {
-  /**
-   * =============
-   *
-   *
-   * TESTING ONLY
-   * DELETE LATER!
-   */
-  users = [];
-  /**
-   *
-   *
-   *
-   *
-   * =============
-   */
-
   const existingUser = dispatch({
     type: "EXISTING",
     payload: { name, room },
