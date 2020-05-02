@@ -43,6 +43,16 @@ io.on("connection", (socket) => {
     callback();
   });
 
+  socket.on("newMessage", (text, callback) => {
+    const { user, err } = getUser({ id: socket.id });
+
+    if (err) return callback(err);
+
+    io.to(user.room).emit("message", generateMessage(user.name, text));
+
+    callback();
+  });
+
   socket.on("disconnect", () => {
     console.log("Someone has disconnected");
   });
