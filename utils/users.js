@@ -2,9 +2,9 @@ let users = [];
 
 const sanitize = (str) => str.trim().toLowerCase();
 
-const dispatchUsers = (action) => {
+const dispatch = (action) => {
   const { type, payload } = action;
-  const { id, nickname, room } = payload;
+  const { id, name, room } = payload;
 
   switch (type) {
     case "ADD":
@@ -15,8 +15,7 @@ const dispatchUsers = (action) => {
 
     case "EXISTING":
       return users.find(
-        (user) =>
-          user.nickname === sanitize(nickname) && user.room === sanitize(room)
+        (user) => user.name === sanitize(name) && user.room === sanitize(room)
       );
 
     case "FIND_BY_ID":
@@ -30,30 +29,70 @@ const dispatchUsers = (action) => {
   }
 };
 
-const addUser = ({ id, nickname, room }) => {
-  const existingUser = dispatchUsers({
+const addUser = ({ id, name, room }) => {
+  /**
+   * =============
+   *
+   *
+   * TESTING ONLY
+   * DELETE LATER!
+   */
+  users = [];
+  /**
+   *
+   *
+   *
+   *
+   * =============
+   */
+
+  const existingUser = dispatch({
     type: "EXISTING",
-    payload: { nickname, room },
+    payload: { name, room },
   });
 
-  if (existingUser) return { err: "Username is taken" };
+  if (existingUser)
+    return {
+      user: null,
+      err: "Username is taken",
+    };
 
-  dispatchUsers({ type: "ADD", payload: { id, nickname, room } });
+  const user = { id, name, room };
+
+  dispatch({
+    type: "ADD",
+    payload: user,
+  });
+
+  return { user, err: null };
 };
 
 const removeUser = ({ id }) => {
-  const user = dispatchUsers({ type: "FIND_BY_ID", payload: { id } });
+  const user = dispatch({ type: "FIND_BY_ID", payload: { id } });
 
-  if (!user) return { err: "No user found" };
+  if (!user) return { user: null, err: "No user found" };
 
-  return dispatchUsers({ type: "REMOVE", payload: { id } });
+  dispatch({ type: "REMOVE", payload: { id } });
+
+  return { user };
 };
 
-const getUser = ({ id }) =>
-  dispatchUsers({ type: "FIND_BY_ID", payload: { id } });
+const getUser = ({ id }) => {
+  const user = dispatch({ type: "FIND_BY_ID", payload: { id } });
 
-const getUsersInRoom = ({ room }) =>
-  dispatchUsers({ type: "FIND_IN_ROOM", payload: { room } });
+  if (!user) return { user: null, err: "No user found" };
+
+  return { user, err: null };
+};
+
+const getUsersInRoom = ({ room }) => {
+  const users = dispatch({
+    type: "FIND_IN_ROOM",
+    payload: { room },
+  });
+
+  return { users };
+};
 
 module.exports = {
   addUser,
