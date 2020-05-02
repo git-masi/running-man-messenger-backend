@@ -1,7 +1,13 @@
+// Core Node Modules
 const http = require('http');
+
+// Modules
 const chalk = require('chalk');
 const express = require('express');
 const socketio = require('socket.io');
+
+// Required Files
+const router = require('./routes/router');
 
 const app = express();
 const server = http.createServer(app);
@@ -15,13 +21,7 @@ io.on('connection', socket => {
   })
 });
 
-app.use('/', async (req, res, next) => {
-  try {
-    res.send('It\'s alive!');
-  } catch (err) {
-   res.status(500).send(err);
-  }
-});
+app.use(router);
 
 const port = process.env.PORT || 3333;
 
