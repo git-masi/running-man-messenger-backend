@@ -8,6 +8,13 @@ const socketio = require("socket.io");
 
 // Required Files
 const router = require("./routes/router");
+const generateMessage = require("./utils/generateMessage");
+const {
+  addUser,
+  removeUser,
+  getUser,
+  getUsersInRoom,
+} = require("./utils/users");
 
 const app = express();
 const server = http.createServer(app);
@@ -16,8 +23,24 @@ const io = socketio(server);
 io.on("connection", (socket) => {
   console.log("New socket connected");
 
-  socket.on("join", ({ nickname, room }) => {
-    console.log(nickname, room);
+  socket.on("join", ({ name, room }, callback) => {
+    const { user, err } = addUser({ id: socket.id, name, room });
+
+    if (err) return callback(err);
+
+    socket.join(user.room);
+    socket.emit(
+      "connectSucess",
+      generateMessage("admin", `Welcome ${user.name}`)
+    );
+    socket.broadcast
+      .to(user.room)
+      .emit(
+        "newUser",
+        generateMessage("admin", `${user.name} has entered the chat`)
+      );
+
+    callback();
   });
 
   socket.on("disconnect", () => {
