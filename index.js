@@ -29,14 +29,11 @@ io.on("connection", (socket) => {
     if (err) return callback(err);
 
     socket.join(user.room);
-    socket.emit(
-      "connectSucess",
-      generateMessage("admin", `Welcome ${user.name}`)
-    );
+    socket.emit("message", generateMessage("admin", `Welcome ${user.name}`));
     socket.broadcast
       .to(user.room)
       .emit(
-        "newUser",
+        "message",
         generateMessage("admin", `${user.name} has entered the chat`)
       );
 
