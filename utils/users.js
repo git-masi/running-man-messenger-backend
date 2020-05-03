@@ -1,6 +1,6 @@
 let users = [];
 
-const sanitize = (str) => str.trim().toLowerCase();
+const normalizeString = (str) => str.trim().toLowerCase();
 
 const dispatch = (action) => {
   const { type, payload } = action;
@@ -15,7 +15,9 @@ const dispatch = (action) => {
 
     case "EXISTING":
       return users.find(
-        (user) => user.name === sanitize(name) && user.room === sanitize(room)
+        (user) =>
+          user.name === normalizeString(name) &&
+          user.room === normalizeString(room)
       );
 
     case "FIND_BY_ID":
