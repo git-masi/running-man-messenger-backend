@@ -36,6 +36,7 @@ io.on("connection", (socket) => {
         "message",
         generateMessage("admin", `${user.name} has entered the chat`)
       );
+    io.to(user.room).emit("roomData", getUsersInRoom({ room: user.room }));
 
     callback();
   });
@@ -51,7 +52,6 @@ io.on("connection", (socket) => {
   });
 
   socket.on("disconnect", () => {
-    console.log(socket.id);
     const { user, err } = removeUser({ id: socket.id });
 
     if (err) return console.log(err);
@@ -60,6 +60,8 @@ io.on("connection", (socket) => {
       "message",
       generateMessage("admin", `${user.name} has left the chat`)
     );
+
+    io.to(user.room).emit("roomData", getUsersInRoom({ room: user.room }));
   });
 });
 
