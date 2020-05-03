@@ -11,7 +11,7 @@ const dispatch = (action) => {
       return (users = [...users, payload]);
 
     case "REMOVE":
-      return (users = users.filter((user) => user.id === id));
+      return (users = users.filter((user) => user.id !== id));
 
     case "EXISTING":
       return users.find(
