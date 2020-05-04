@@ -1,5 +1,7 @@
+const moment = require("moment");
+
 module.exports = (name, text) => ({
   name,
   text,
-  createdAt: Date.now(),
+  createdAt: moment(Date.now()).format("MMM Do h:mm A"),
 });
