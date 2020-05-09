@@ -1,13 +1,11 @@
-const express = require('express');
-
+const express = require("express");
 const router = express.Router();
+const userRouter = require("./userRouter");
 
-router.get('/', async (req, res, next) => {
-  try {
-    res.send('it works!');
-  } catch (err) {
-   res.status(500).send(err);
-  }
+router.use("/users", userRouter);
+
+router.use("/", async (req, res, next) => {
+  res.status(404).send();
 });
 
 module.exports = router;

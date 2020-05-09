@@ -68,6 +68,7 @@ io.on("connection", (socket) => {
   });
 });
 
+app.use(express.json());
 app.use(router);
 
 const port = process.env.PORT || 3333;
