@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const validator = require("validator");
 
 const userSchema = new mongoose.Schema({
-  name: {
+  username: {
     type: String,
     required: true,
     unique: true,
@@ -26,7 +26,7 @@ const userSchema = new mongoose.Schema({
     minlength: 8,
     validate(value) {
       const passwordStrengthRegex = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*+]).*/;
-      if (!passwordStrengthRegex.text(value)) {
+      if (!passwordStrengthRegex.test(value)) {
         throw new Error(
           "Password must contain at least 1 upper case letter, 1 lower case letter, 1 number, and 1 special character"
         );
