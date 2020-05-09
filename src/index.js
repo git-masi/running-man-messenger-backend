@@ -6,6 +6,9 @@ const chalk = require("chalk");
 const express = require("express");
 const socketio = require("socket.io");
 
+// DB
+require("./db/mongoose");
+
 // Required Files
 const router = require("./routes/router");
 const generateMessage = require("./utils/generateMessage");
@@ -15,8 +18,6 @@ const {
   getUser,
   getUsersInRoom,
 } = require("./utils/users");
-
-require("./db/mongoose");
 
 const app = express();
 const server = http.createServer(app);
